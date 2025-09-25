@@ -9,9 +9,15 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
-        .executable(
-            name: "PonsivApp",
-            targets: ["App"]
+        .library(
+            name: "PonsivUI",
+            targets: [
+                "App",
+                "Core",
+                "Infrastructure",
+                "Features",
+                "UIComponents"
+            ]
         ),
         .library(
             name: "PonsivCore",
@@ -61,7 +67,7 @@ let package = Package(
                 .process("Resources")
             ]
         ),
-        .executableTarget(
+        .target(
             name: "App",
             dependencies: [
                 "Core",

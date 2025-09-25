@@ -1,19 +1,11 @@
-import SwiftUI
 import Core
 import Infrastructure
 import Features
 
-@main
-struct PonsivAppMain: App {
-    private let dataStore: PonsivDataStore
-    private let environment: AppEnvironment
-
-    @StateObject private var appModel: AppViewModel
-
-    init() {
-        let store = PonsivDataStore()
-        self.dataStore = store
-        let env = AppEnvironment(
+public enum PonsivBootstrap {
+    public static func makeEnvironment(stateDirectory: URL? = nil) -> AppEnvironment {
+        let store = PonsivDataStore(stateDirectory: stateDirectory)
+        return AppEnvironment(
             productRepository: store,
             engagementRepository: store,
             userRepository: store,
@@ -22,20 +14,9 @@ struct PonsivAppMain: App {
             lookRepository: store,
             orderRepository: store
         )
-        self.environment = env
-        _appModel = StateObject(wrappedValue: AppViewModel(environment: env))
     }
 
-    var body: some Scene {
-        WindowGroup {
-            RootView()
-                .environmentObject(appModel)
-                .environment(\.appEnvironment, environment)
-                .task {
-                    if appModel.phase == .loading {
-                        appModel.bootstrap()
-                    }
-                }
-        }
+    public static func makeAppViewModel(stateDirectory: URL? = nil) -> AppViewModel {
+        AppViewModel(environment: makeEnvironment(stateDirectory: stateDirectory))
     }
 }
