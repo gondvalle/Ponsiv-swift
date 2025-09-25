@@ -4,15 +4,13 @@ import Features
 import Infrastructure
 import UIComponents
 
-public struct RootView: View {
+struct RootView: View {
     @EnvironmentObject private var appModel: AppViewModel
     @State private var path: [AppDestination] = []
     @State private var selectedTab: MainTab = .feed
     @State private var feedLaunch: FeedLaunch?
 
-    public init() {}
-
-    public var body: some View {
+    var body: some View {
         switch appModel.phase {
         case .loading:
             ProgressView("Cargando…")
