@@ -4,12 +4,6 @@ enum AssetLocator {
     private static func candidateBaseURLs() -> [URL] {
         var urls: [URL] = []
 
-        #if SWIFT_PACKAGE
-        if let moduleURL = Bundle.module.resourceURL {
-            urls.append(moduleURL.appendingPathComponent("assets"))
-        }
-        #endif
-
         #if os(iOS) || os(tvOS) || os(watchOS) || os(macOS)
         if let resourceURL = Bundle.main.resourceURL {
             urls.append(resourceURL.appendingPathComponent("assets"))
