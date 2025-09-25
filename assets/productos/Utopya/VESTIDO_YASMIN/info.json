@@ -1,0 +1,12 @@
+{
+  "nombre": "VESTIDO YASMIN",
+  "marca": "Utopya",
+  "precio": 45.9,
+  "tallas": [
+    "S",
+    "M",
+    "L"
+  ],
+  "categoria": "Vestidos",
+  "url": "https://utopyashop.com/producto/vestido-yasmin/"
+}

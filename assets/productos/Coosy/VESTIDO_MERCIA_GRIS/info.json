@@ -1,0 +1,14 @@
+{
+  "nombre": "VESTIDO MERCIA GRIS",
+  "marca": "Coosy",
+  "precio": 130.0,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "categoria": "Vestidos",
+  "url": "https://www.coosy.es/products/vestido-merciagris"
+}

@@ -1,0 +1,12 @@
+{
+  "nombre": "BLUSA MIEL",
+  "marca": "Utopya",
+  "precio": 26.9,
+  "tallas": [
+    "S",
+    "M",
+    "L"
+  ],
+  "categoria": "Blusas",
+  "url": "https://utopyashop.com/producto/blusa-miel/"
+}

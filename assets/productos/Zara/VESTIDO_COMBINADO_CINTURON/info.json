@@ -1,0 +1,14 @@
+{
+  "nombre": "VESTIDO COMBINADO CINTURÓN",
+  "marca": "Zara",
+  "precio": 45.95,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XXL"
+  ],
+  "categoria": "Vestidos",
+  "url": "https://www.zara.com/es/es/vestido-combinado-cinturon-p05029188.html?v1=468855132&v2=2420896"
+}

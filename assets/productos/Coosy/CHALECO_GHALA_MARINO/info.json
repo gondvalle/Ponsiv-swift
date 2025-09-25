@@ -1,0 +1,14 @@
+{
+  "nombre": "CHALECO GHALA MARINO",
+  "marca": "Coosy",
+  "precio": 79.0,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "categoria": "Chalecos",
+  "url": "https://www.coosy.es/products/chaleco-ghalamarino"
+}

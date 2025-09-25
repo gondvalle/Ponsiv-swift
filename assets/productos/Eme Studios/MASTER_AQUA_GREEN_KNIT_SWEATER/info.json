@@ -1,0 +1,15 @@
+{
+  "nombre": "Master Aqua Green Knit Sweater",
+  "marca": "Eme Studios",
+  "precio": 85.0,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "categoria": "Sudaderas",
+  "url": "https://emestudios.com/products/master-aqua-green-knit-sweater"
+}

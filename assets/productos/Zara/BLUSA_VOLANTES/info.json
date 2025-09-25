@@ -1,0 +1,13 @@
+{
+  "nombre": "BLUSA VOLANTES",
+  "marca": "Zara",
+  "precio": 22.95,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L"
+  ],
+  "categoria": "Blusas",
+  "url": "https://www.zara.com/es/es/blusa-volantes-p05029209.html?v1=481548209&v2=2546081"
+}

@@ -1,0 +1,15 @@
+{
+  "nombre": "Sudadera Hot Gris",
+  "marca": "Nude Project",
+  "precio": 89.0,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL",
+    "XXL"
+  ],
+  "categoria": "Sudaderas",
+  "url": "https://nude-project.com/es/collections/sudaderas-mujer/products/sudadera-gris-hot"
+}

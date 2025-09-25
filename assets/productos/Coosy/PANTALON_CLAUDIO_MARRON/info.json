@@ -1,0 +1,14 @@
+{
+  "nombre": "PANTALON CLAUDIO MARRON",
+  "marca": "Coosy",
+  "precio": 125.0,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "categoria": "Pantalones",
+  "url": "https://www.coosy.es/products/pantalon-claudiomarron"
+}

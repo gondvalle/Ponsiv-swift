@@ -1,0 +1,14 @@
+{
+  "nombre": "CHALECO JUANITA",
+  "marca": "The IQ Collection",
+  "precio": 95.0,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "categoria": "Chalecos",
+  "url": "https://theiqcollection.com/products/top-juanita?pr_prod_strat=jac&pr_rec_id=aec641e01&pr_rec_pid=15136972243322&pr_ref_pid=15137000391034&pr_seq=uniform"
+}

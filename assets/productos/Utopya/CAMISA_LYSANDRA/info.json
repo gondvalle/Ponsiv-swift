@@ -1,0 +1,12 @@
+{
+  "nombre": "CAMISA LYSANDRA",
+  "marca": "Utopya",
+  "precio": 29.9,
+  "tallas": [
+    "S",
+    "M",
+    "L"
+  ],
+  "categoria": "Camisas",
+  "url": "https://utopyashop.com/producto/camisa-lysandra/"
+}

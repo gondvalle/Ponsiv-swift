@@ -1,0 +1,12 @@
+{
+  "nombre": "PANTALON ELVA CRUDO",
+  "marca": "Coosy",
+  "precio": 125.0,
+  "tallas": [
+    "S",
+    "M",
+    "L"
+  ],
+  "categoria": "Pantalones",
+  "url": "https://www.coosy.es/products/pantalon-elvacrudo"
+}

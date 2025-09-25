@@ -1,0 +1,14 @@
+{
+  "nombre": "JERSEY PIPO BEIGE",
+  "marca": "Coosy",
+  "precio": 79.0,
+  "tallas": [
+    "XS",
+    "S",
+    "M",
+    "L",
+    "XL"
+  ],
+  "categoria": "Jerseis",
+  "url": "https://www.coosy.es/products/jersey-pipobeige"
+}
