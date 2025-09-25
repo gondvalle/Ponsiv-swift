@@ -1,0 +1,8 @@
+{
+  "indentation": {
+    "spaces": 4
+  },
+  "lineBreakBeforeEachArgument": true,
+  "maximumBlankLines": 1,
+  "tabWidth": 4
+}
