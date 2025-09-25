@@ -1,72 +1,53 @@
-# Ponsiv Expo
+# Ponsiv
 
-React Native + Expo reimplementation of the Ponsiv demo app.
+Este repositorio contiene la aplicación nativa de Ponsiv implementada con SwiftUI y Swift Package Manager. La antigua versión Expo/React Native se ha retirado; puedes consultarla en el historial de Git si necesitas referencias.
 
-## Inicio
+## SwiftUI (SPM)
 
-```bash
-npm install
-```
+Requisitos:
 
-## Requisitos
+- Xcode 15.4 o superior (Swift 5.10, iOS 17 SDK)
+- macOS 13+
 
-- Node >= 20.19.4
-- npm 9/10/11
-- Expo CLI (vía `npx expo`)
-- Android Studio o Xcode si quieres usar emuladores
-
-Notas SDK 54:
-- Edge‑to‑edge en Android viene activado por defecto.
-- Predictive back permanece desactivado (dejado explícito en `app.json`).
-- Reanimated v4 requiere `react-native-worklets`. Ya configurado en `babel.config.js`.
-- `expo-file-system`: si tu código usa API antigua, importa temporalmente desde `expo-file-system/legacy`. Este repo ya lo hace en `app/(tabs)/profile.tsx` con un TODO para migrar antes de SDK 55.
-
-## Desarrollo
+Comandos principales:
 
 ```bash
-npm i
-npm run start   # inicia Expo (pulsa "w" para Web)
+swift build -c release
+swift test --parallel
+open Package.swift
 ```
 
-Iniciar directamente en Web (puerto libre):
+Verificación completa (genera índice de assets, compila y ejecuta tests):
 
 ```bash
-npx expo start --web -p 5173
+./Scripts/verify.sh
 ```
 
-Exportar Web estático y servirlo localmente:
+El paquete se estructura en targets modulares:
+
+| Target            | Descripción                                                   |
+| ----------------- | ------------------------------------------------------------- |
+| `Core`            | Modelos `Codable`, protocolos de repositorio y utilidades     |
+| `Infrastructure`  | Persistencia (`PonsivDataStore`), acceso a assets y servicios |
+| `Features`        | Estado `ObservableObject` y escenas de la app                 |
+| `UIComponents`    | Vistas SwiftUI reutilizables (slides, imágenes remotas, etc.) |
+| `App`             | Punto de entrada `@main`, `NavigationStack` + `TabView`       |
+
+## Assets
+
+La carpeta `assets/` del repositorio sigue siendo la fuente de imágenes, logos y datos (`info.json`) utilizados por la app. El script `Scripts/asset-index.swift` genera `Sources/Infrastructure/Assets/Assets.swift` mapeando todos los archivos disponibles. El runtime resuelve rutas mediante `AssetLocator`, que busca los recursos en el bundle y, en su defecto, en `./assets/`.
+
+Cuando añadas o modifiques recursos en `assets/`, ejecuta:
 
 ```bash
-npx expo export -p web
-npx http-server dist -p 8080 -c-1
+./Scripts/asset-index.swift
 ```
 
-### Scripts útiles
-- `npm run clean` — ejecuta `limpia todo`
-- `npm run assets` — actualiza `src/data/assetsIndex.ts` con los ficheros de `assets`
-- `npm run typecheck` — ejecuta `tsc --noEmit`
+## Scripts útiles
 
-Estructura principal del proyecto:
+- `Scripts/asset-index.swift` — Regenera el índice tipado de assets.
+- `Scripts/verify.sh` — Muestra la versión de Swift, regenera el índice y ejecuta build + tests.
 
-```
-/app      Rutas con expo-router
-/assets   Imágenes, iconos y datos JSON
-/src      Componentes, tienda Zustand y utilidades
-```
+## Notas de migración
 
-**Nota:** Tras añadir o editar archivos en `assets`, ejecutar `npm run assets` para regenerar el índice estático de recursos.
-
-## Cambios de migración a SDK 54
-
-- Dependencias alineadas con SDK 54 (`npx expo install --fix` + `npx expo-doctor`).
-- `expo/metro-config` usado en `metro.config.js` (ya no se instala `@expo/metro-config`).
-- Rutas: el grupo `(tabs)` es pathless; navegación actualizada a `/feed` en vez de `/(tabs)/feed`.
-- `babel.config.js`: plugin `react-native-worklets/plugin` (Reanimated v4).
-- `app.json`: se añadió `android.predictiveBackGestureEnabled: false`.
-
-## Comprobaciones
-
-1. `npx expo-doctor@latest` → sin errores bloqueantes.
-2. Web funciona en `/feed`. Si ves pantalla en blanco, revisa rutas que no incluyan el grupo `(tabs)` en el path.
-3. Para nativo, genera una dev build nueva si usas `expo-dev-client`.
-
+Los detalles de la migración desde Expo/React Native y las decisiones de diseño están documentados en `MIGRATION_NOTES.md`.

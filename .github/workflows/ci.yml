@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    paths:
+      - 'Sources/**'
+      - 'Tests/**'
+      - 'Scripts/**'
+      - 'assets/**'
+      - 'Package.swift'
+      - '.github/**'
+      - 'MIGRATION_NOTES.md'
+      - 'README.md'
+  pull_request:
+    paths:
+      - 'Sources/**'
+      - 'Tests/**'
+      - 'Scripts/**'
+      - 'assets/**'
+      - 'Package.swift'
+      - '.github/**'
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate asset index
+        run: ./Scripts/asset-index.swift
+
+      - name: Swift Build
+        run: swift build -c release
+
+      - name: Swift Tests
+        run: swift test --parallel
