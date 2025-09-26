@@ -1,0 +1,44 @@
+name: Ponsiv
+options:
+  minimumXcodeGenVersion: 2.41.0
+  developmentLanguage: es
+  deploymentTarget:
+    iOS: "26.0"
+
+settings:
+  base:
+    SWIFT_VERSION: 6.2
+    CODE_SIGN_STYLE: Automatic
+    PRODUCT_BUNDLE_IDENTIFIER: com.ponsiv.app
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    CODE_SIGNING_ALLOWED: NO
+    CODE_SIGNING_REQUIRED: NO
+
+packages:
+  PonsivPkg:
+    path: .   # usa el Package.swift local (raíz del repo)
+
+targets:
+  PonsivApp:
+    type: application
+    platform: iOS
+    sources:
+      - AppHost/Sources
+    resources:
+      - AppHost/Resources
+    info:
+      path: AppHost/Resources/Info.plist
+    settings:
+      base:
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: YES
+    dependencies:
+      - package: PonsivPkg
+        product: PonsivUI   # enlaza el producto del package
+    scheme:
+      testTargets: []
+
+schemes:
+  Ponsiv:
+    build:
+      targets:
+        PonsivApp: all

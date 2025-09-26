@@ -201,7 +201,7 @@ public actor PonsivDataStore: ProductRepository,
         return state.users.first(where: { $0.id == id })?.toUser()
     }
 
-    public func updateCurrentUser(_ update: (inout User) -> Void) async throws -> User {
+    public func updateCurrentUser(_ update: @Sendable (inout User) -> Void) async throws -> User {
         guard let id = state.sessionUserID, let idx = state.users.firstIndex(where: { $0.id == id }) else {
             throw AppError.missingUser
         }

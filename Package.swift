@@ -1,17 +1,17 @@
-// swift-tools-version: 5.10
+// swift-tools-version: 6.2
 import PackageDescription
 
 let package = Package(
     name: "Ponsiv",
     defaultLocalization: "es",
     platforms: [
-        .iOS(.v17),
-        .macOS(.v13)
+        .iOS(.v26),
+        .macOS(.v26)
     ],
     products: [
-        .executable(
-            name: "PonsivApp",
-            targets: ["App"]
+        .library(
+            name: "PonsivUI",
+            targets: ["PonsivUI"]
         ),
         .library(
             name: "PonsivCore",
@@ -61,9 +61,19 @@ let package = Package(
                 .process("Resources")
             ]
         ),
-        .executableTarget(
+        .target(
             name: "App",
             dependencies: [
+                "Core",
+                "Infrastructure",
+                "Features",
+                "UIComponents"
+            ]
+        ),
+        .target(
+            name: "PonsivUI",
+            dependencies: [
+                "App",
                 "Core",
                 "Infrastructure",
                 "Features",

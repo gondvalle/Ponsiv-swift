@@ -46,7 +46,7 @@ private final class StubbedRepositories: ProductRepository,
     func createUser(_ request: CreateUserRequest) async throws -> User { throw AppError.persistenceFailed }
     func authenticate(email: String, password: String) async throws -> User { throw AppError.invalidCredentials }
     func currentUser() async throws -> User? { nil }
-    func updateCurrentUser(_ update: (inout User) -> Void) async throws -> User { throw AppError.missingUser }
+    func updateCurrentUser(_ update: @Sendable (inout User) -> Void) async throws -> User { throw AppError.missingUser }
     func logout() async throws {}
     func setCurrentUser(_ user: User?) async throws {}
     func allUsers() async throws -> [User] { [] }

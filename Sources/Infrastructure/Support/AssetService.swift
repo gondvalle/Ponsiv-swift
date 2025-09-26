@@ -9,6 +9,10 @@ public struct AssetService: Sendable {
         if key.hasPrefix("http") || key.hasPrefix("file:") {
             return URL(string: key)
         }
+        if key.hasPrefix("asset:") {
+            let trimmed = String(key.dropFirst("asset:".count))
+            return AssetLocator.url(for: trimmed)
+        }
         return AssetLocator.url(for: key)
     }
 

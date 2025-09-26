@@ -4,6 +4,7 @@
 
 - **Persistencia unificada**: se reemplazó la combinación SQLite/AsyncStorage por un único `PonsivDataStore` (actor) que serializa el estado en `Application Support` como JSON. Mantiene las mismas entidades (usuarios, likes, armario, carrito, pedidos y looks) y reutiliza identificadores para conservar la compatibilidad con los assets.
 - **Assets tipados**: `Scripts/asset-index.swift` recorre `./assets/` y genera `AssetIndex.swift`; en tiempo de ejecución `AssetLocator` resuelve las rutas apuntando a la carpeta `assets` del bundle o del repositorio. No se duplica contenido en otras ubicaciones.
+- **Proyecto iOS**: `Ponsiv.xcodeproj` empaqueta la app SwiftUI y depende del paquete local `PonsivUI`. El icono utiliza `assets/logos/Ponsiv.png`.
 - **Carga de productos**: `PonsivDataStore` parsea cada `info.json` dentro de `assets/productos/<marca>/<id>/` y construye los modelos `Product` utilizando las imágenes encontradas en `fotos/` y los logos de `assets/logos/`.
 - **Arquitectura por capas**: los protocolos viven en `Core`, el almacenamiento en `Infrastructure`, los view models en `Features` y las vistas compartidas en `UIComponents`. El target `App` solo ensambla dependencias y navega.
 - **Estado observable**: `AppViewModel` adopta `ObservableObject` y centraliza bootstrap, autenticación, carrito, pedidos y looks.

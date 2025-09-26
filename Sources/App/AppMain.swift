@@ -1,3 +1,4 @@
+import Foundation
 import Core
 import Infrastructure
 import Features
@@ -16,6 +17,7 @@ public enum PonsivBootstrap {
         )
     }
 
+    @MainActor
     public static func makeAppViewModel(stateDirectory: URL? = nil) -> AppViewModel {
         AppViewModel(environment: makeEnvironment(stateDirectory: stateDirectory))
     }

@@ -36,9 +36,6 @@ public struct Order: Codable, Identifiable, Equatable, Hashable, Sendable {
 
 public extension Order {
     var localizedDate: String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "es_ES")
-        formatter.dateStyle = .medium
-        return formatter.string(from: createdAt)
+        FormatterUtils.formatOrderDate(createdAt)
     }
 }

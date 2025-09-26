@@ -15,7 +15,17 @@ Comandos principales:
 swift build -c release
 swift test --parallel
 open Package.swift
+open Ponsiv.xcodeproj
 ```
+
+### Build & Run (iOS 26)
+```bash
+./Scripts/bootstrap.sh
+open Ponsiv.xcodeproj
+# Xcode: esquema "Ponsiv" → ⌘B → ⌘R
+```
+
+Requisitos: Xcode 26 (SDK iOS 26), macOS 26 compatible.
 
 Verificación completa (genera índice de assets, compila y ejecuta tests):
 
@@ -49,5 +59,12 @@ Cuando añadas o modifiques recursos en `assets/`, ejecuta:
 - `Scripts/verify.sh` — Muestra la versión de Swift, regenera el índice y ejecuta build + tests.
 
 ## Notas de migración
+
+### Proyecto iOS Xcode
+
+- `Ponsiv.xcodeproj` incluye un target iOS con bundle `com.tuorg.ponsiv` y firma automática.
+- El app icon reutiliza `assets/logos/Ponsiv.png`.
+- El esquema `Ponsiv` enlaza la librería `PonsivUI` del paquete local.
+- Abre el proyecto con `open Ponsiv.xcodeproj`, selecciona el esquema **Ponsiv** y el simulador *iPhone 15 Pro*, compila (`⌘B`) y ejecuta (`⌘R`).
 
 Los detalles de la migración desde Expo/React Native y las decisiones de diseño están documentados en `MIGRATION_NOTES.md`.

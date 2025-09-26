@@ -18,7 +18,7 @@ public protocol UserRepository: Sendable {
     func createUser(_ request: CreateUserRequest) async throws -> User
     func authenticate(email: String, password: String) async throws -> User
     func currentUser() async throws -> User?
-    func updateCurrentUser(_ update: (inout User) -> Void) async throws -> User
+    func updateCurrentUser(_ update: @Sendable (inout User) -> Void) async throws -> User
     func logout() async throws
     func setCurrentUser(_ user: User?) async throws
     func allUsers() async throws -> [User]

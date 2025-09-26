@@ -33,10 +33,6 @@ public struct Product: Codable, Identifiable, Equatable, Hashable, Sendable {
 
 public extension Product {
     var displayPrice: String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.currencyCode = "EUR"
-        formatter.locale = Locale(identifier: "es_ES")
-        return formatter.string(from: price as NSDecimalNumber) ?? "€\(price)"
+        FormatterUtils.formatPrice(price)
     }
 }

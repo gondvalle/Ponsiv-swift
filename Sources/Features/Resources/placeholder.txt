@@ -1,0 +1,2 @@
+Placeholder resource to keep the Features bundle valid for codesigning.
+Replace or remove when real resources are added.
