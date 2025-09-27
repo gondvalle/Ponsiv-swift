@@ -60,6 +60,9 @@ public struct ProductSlideView: View {
     @State private var selectedIndex: Int = 0    // Índice de imagen actualmente visible
     @State private var hideOverlay = false       // Controla visibilidad del overlay (para vista sin distracciones)
     @State private var showSizeSheet = false     // Controla visibilidad del selector de tallas
+    @State private var scale: CGFloat = 1.0      // Escala para el zoom con pellizco
+    @State private var offset: CGSize = .zero    // Offset para centrar zoom en punto de toque
+    @State private var tapLocation: CGPoint = .zero  // Posición del último tap
 
     public init(
         product: Product,
@@ -115,34 +118,66 @@ public struct ProductSlideView: View {
      * FUNCIONALIDAD:
      * - Permite deslizar horizontalmente entre las imágenes del producto
      * - Gesto de mantener presionado oculta el overlay para vista limpia
+     * - Zoom con pellizco o doble tap (ideal para simulador)
      *
      * MEDIDAS Y POSICIONAMIENTO:
      * - frame: width/height = size (ocupa toda la pantalla)
+     * - scaleEffect: Aplica zoom controlado por gestos
      * - clipped(): Recorta imagen que se salga del marco
      * - ignoresSafeArea(): Ignora áreas seguras para imagen completa
      *
      * GESTOS:
-     * - Long press (0.18s): Oculta overlay con animación de 0.2s
-     * - Release: Muestra overlay nuevamente con animación de 0.2s
+     * - Doble tap: Toggle zoom 1x/2x centrado en punto de toque
+     * - Long press (0.18s): Oculta overlay, se restaura al soltar
+     * - Swipe horizontal: Navegación entre productos (no interferido)
      */
     private func imagePager(size: CGSize) -> some View {
         TabView(selection: $selectedIndex) {
             ForEach(Array(imageURLs.enumerated()), id: \.offset) { index, url in
-                RemoteImageView(url: url, contentMode: .fill)  // Componente definido en RemoteImageView.swift
-                    .tag(index)
-                    // TAMAÑO: Ocupa toda la pantalla disponible
-                    .frame(width: size.width, height: size.height)
-                    .clipped()          // Recorta contenido que se salga del marco
-                    .ignoresSafeArea()  // Ignora áreas seguras para mostrar imagen completa
+                ZStack {
+                    RemoteImageView(url: url, contentMode: .fill)  // Componente definido en RemoteImageView.swift
+                        .frame(width: size.width, height: size.height)
+                        .scaleEffect(scale, anchor: .center)  // Zoom centrado
+                        .offset(offset)  // Offset para posicionar el zoom
+                        .clipped()
+                        .ignoresSafeArea()
 
-                    // GESTO PARA OCULTAR OVERLAY: Mantener presionado
-                    .onLongPressGesture(minimumDuration: 0.18) {  // 180ms mínimo
-                        withAnimation(.easeInOut(duration: 0.2)) { hideOverlay = true }
-                    } onPressingChanged: { pressing in
-                        if !pressing {  // Al soltar
-                            withAnimation(.easeInOut(duration: 0.2)) { hideOverlay = false }
+                    // Capa invisible para capturar gestos (sin interferir con swipe)
+                    Color.clear
+                        .frame(width: size.width, height: size.height)
+                        .contentShape(Rectangle())
+                        .onLongPressGesture(minimumDuration: 0.18) {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                hideOverlay = true
+                            }
+                        } onPressingChanged: { pressing in
+                            if !pressing {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    hideOverlay = false
+                                }
+                            }
                         }
-                    }
+                        .onTapGesture(count: 2, coordinateSpace: .local) { location in
+                            // Doble tap con posición
+                            let centerX = size.width / 2
+                            let centerY = size.height / 2
+
+                            withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                                if scale > 1.0 {
+                                    scale = 1.0
+                                    offset = .zero
+                                } else {
+                                    scale = 2.0
+                                    // Calcular offset para centrar zoom en el punto tocado
+                                    offset = CGSize(
+                                        width: (centerX - location.x) * 0.5,
+                                        height: (centerY - location.y) * 0.5
+                                    )
+                                }
+                            }
+                        }
+                }
+                .tag(index)
             }
         }
         // ESTILO DE PAGINACIÓN: Sin indicadores de página en iOS
@@ -151,6 +186,15 @@ public struct ProductSlideView: View {
         #else
         .tabViewStyle(.automatic)  // Estilo automático en otras plataformas
         #endif
+        // RESET ZOOM Y ESTADOS AL CAMBIAR DE IMAGEN
+        .onChange(of: selectedIndex) {
+            withAnimation(.easeOut(duration: 0.3)) {
+                scale = 1.0  // Vuelve al zoom original al cambiar de imagen
+                offset = .zero  // Reset offset del zoom
+            }
+            hideOverlay = false  // Asegura que el overlay se muestre
+            tapLocation = .zero  // Reset posición del tap
+        }
     }
 
     /**

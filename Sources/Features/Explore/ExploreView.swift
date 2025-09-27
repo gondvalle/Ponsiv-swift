@@ -48,8 +48,8 @@ public struct ExploreView: View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: AppTheme.Spacing.l) {
                 searchField
-                banner
                 chipsRow
+                banner
                 trendingSection
                 categoriesSection
             }
@@ -70,14 +70,6 @@ public struct ExploreView: View {
             .background(AppTheme.Colors.secondaryBackground, in: RoundedRectangle(cornerRadius: AppTheme.Radii.l, style: .continuous))
     }
 
-    @ViewBuilder
-    private var banner: some View {
-        if let bannerURL = appModel.assetURL(for: "banners/verano.png") {
-            RemoteImageView(url: bannerURL, contentMode: .fill, cornerRadius: AppTheme.Radii.m)
-                .frame(height: 160)
-                .onTapGesture { openSummerFeed() }
-        }
-    }
 
     private var chipsRow: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -97,6 +89,15 @@ public struct ExploreView: View {
                 }
             }
             .padding(.vertical, AppTheme.Spacing.s)
+        }
+    }
+
+    @ViewBuilder
+    private var banner: some View {
+        if let bannerURL = appModel.assetURL(for: "banners/verano.png") {
+            RemoteImageView(url: bannerURL, contentMode: .fill, cornerRadius: AppTheme.Radii.m)
+                .frame(height: 160)
+                .onTapGesture { openSummerFeed() }
         }
     }
 
