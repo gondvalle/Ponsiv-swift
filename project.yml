@@ -25,9 +25,22 @@ targets:
     sources:
       - AppHost/Sources
     resources:
-      - AppHost/Resources
+      - AppHost/Resources/Info.plist
     info:
       path: AppHost/Resources/Info.plist
+      properties:
+        UILaunchScreen:
+          UIColorName: systemBackgroundColor
+          UIImageName: ""
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
     settings:
       base:
         ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: YES

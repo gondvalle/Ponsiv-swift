@@ -1,30 +1,63 @@
 import SwiftUI
-import Core
-import Features
-import Infrastructure
-import UIComponents
+import Core            // Para modelos Product, Look, User definidos en Sources/Core/Models/
+import Features        // Para todas las vistas de características (Feed, Profile, etc.)
+import Infrastructure  // Para servicios de infraestructura (PhotoStorage, etc.)
+import UIComponents    // Para componentes de UI (TopBarView, BottomBarView, AppTheme, etc.)
 #if os(iOS)
-import PhotosUI
+import PhotosUI        // Para selección de fotos en iOS
 #endif
 #if canImport(UIKit)
-import UIKit
+import UIKit           // Para funcionalidades específicas de iOS
 #endif
 #if os(macOS)
-import AppKit
+import AppKit          // Para funcionalidades específicas de macOS
 #endif
 
+/**
+ * VISTA RAÍZ PRINCIPAL DE LA APLICACIÓN
+ *
+ * Esta es la vista principal que controla toda la navegación y el estado de la aplicación.
+ * Gestiona los diferentes estados de carga, autenticación y funcionamiento normal.
+ *
+ * FUNCIONALIDADES PRINCIPALES:
+ * - Gestión de estados de la app (loading, authentication, ready, error)
+ * - Navegación por tabs (Feed, Explore, Looks, Cart, Profile)
+ * - Navegación por stack (ProductDetail, LookDetail, Messages, etc.)
+ * - Gestión de modales (crear look, logout)
+ * - Integración con TopBarView y BottomBarView
+ *
+ * DEPENDENCIAS CRUZADAS MÁS IMPORTANTES:
+ * - AppViewModel (Sources/Features/Shared/AppViewModel.swift) - Estado global de la app
+ * - TopBarView (Sources/UIComponents/TopBarView.swift) - Barra superior
+ * - BottomBarView (Sources/UIComponents/BottomBarView.swift) - Barra inferior
+ * - FeedView (Sources/Features/Feed/FeedView.swift) - Vista principal de productos
+ * - LoginView (Sources/Features/Auth/LoginView.swift) - Vista de autenticación
+ * - Todas las vistas de características en Sources/Features/
+ *
+ * LLAMADO DESDE:
+ * - PonsivApp.swift como vista principal de la aplicación
+ */
 public struct RootView: View {
-    @EnvironmentObject private var appModel: AppViewModel
-    @State private var path: [AppDestination] = []
-    @State private var selectedTab: MainTab = .feed
-    @State private var feedLaunch: FeedLaunch?
-    @State private var showCreateLookSheet = false
-    @State private var showLogoutDialog = false
-    @State private var createLookTitle: String = ""
-    @State private var createLookDescription: String = ""
-    @State private var createLookImageData: Data?
-    @State private var createLookError: String?
-    
+    // MODELO GLOBAL DE LA APLICACIÓN
+    @EnvironmentObject private var appModel: AppViewModel  // Inyectado desde PonsivApp.swift
+
+    // ESTADO DE NAVEGACIÓN
+    @State private var path: [AppDestination] = []         // Stack de navegación
+    @State private var selectedTab: MainTab = .feed        // Tab actualmente seleccionado
+
+    // ESTADO DE LANZAMIENTO DE FEED
+    @State private var feedLaunch: FeedLaunch?             // Configuración específica del feed
+
+    // ESTADO DE MODALES
+    @State private var showCreateLookSheet = false         // Modal de crear look
+    @State private var showLogoutDialog = false            // Diálogo de logout
+
+    // ESTADO DE CREACIÓN DE LOOK
+    @State private var createLookTitle: String = ""        // Título del nuevo look
+    @State private var createLookDescription: String = ""  // Descripción del nuevo look
+    @State private var createLookImageData: Data?          // Datos de imagen del look
+    @State private var createLookError: String?            // Error en creación de look
+
     public init() {}
 
     public var body: some View {
@@ -45,6 +78,7 @@ public struct RootView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .task {
             if appModel.phase == .loading {
                 appModel.bootstrap()
@@ -55,7 +89,7 @@ public struct RootView: View {
     private var loadingView: some View {
         VStack(spacing: AppTheme.Spacing.l) {
             RemoteImageView(url: AssetService().url(for: "logos/Ponsiv.png"), contentMode: .fit)
-                .frame(width: 160, height: 48)
+                .frame(maxWidth: 160, maxHeight: 48)
             ProgressView()
                 .progressViewStyle(.circular)
         }
@@ -113,6 +147,7 @@ public struct RootView: View {
                         }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea(edges: selectedTab == .feed ? [.bottom] : [])
 
                 BottomBarView(
                     items: MainTab.allCases.map { $0.bottomBarItem },
